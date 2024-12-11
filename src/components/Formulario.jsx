@@ -24,7 +24,7 @@ const Formulario = () => {
             (item) => item.toLowerCase() !== buscar.trim().toLowerCase()
           ),
         ];
-        return nuevoHistorial.slice(0, 5); // Limita a los últimos 5 elementos
+        return nuevoHistorial.slice(0, 5);
       });
     } catch (error) {
       alert(error.message);
