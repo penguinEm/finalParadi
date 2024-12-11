@@ -19,10 +19,12 @@ const Formulario = () => {
       setResultado(data[0]);
       setHistorial((prev) => {
         const nuevoHistorial = [
-          buscar,
-          ...prev.filter((item) => item !== buscar),
+          buscar.trim(),
+          ...prev.filter(
+            (item) => item.toLowerCase() !== buscar.trim().toLowerCase()
+          ),
         ];
-        return nuevoHistorial.slice(0, 5);
+        return nuevoHistorial.slice(0, 5); // Limita a los últimos 5 elementos
       });
     } catch (error) {
       alert(error.message);
