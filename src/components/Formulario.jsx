@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Form } from "react-bootstrap";
 
 const Formulario = () => {
   //! VARIABLES DECLARADAS ==========================================
@@ -8,35 +8,37 @@ const Formulario = () => {
   const [historial, setHistorial] = useState([]);
   //! FUNCIONES            ==========================================
 
-  const handleBuscar = async (e) => {
-    e.preventDefault();
-    try {
+  useEffect(() => {
+    const traerDatos = async () => {
+      if (!buscar) return;
       const response = await fetch(
         `https://restcountries.com/v3.1/name/${buscar}`
       );
-      if (!response.ok) throw new Error("País no encontrado");
-      const data = await response.json();
-      setResultado(data[0]);
-      setHistorial((prev) => {
-        const nuevoHistorial = [
-          buscar.trim(),
-          ...prev.filter(
-            (item) => item.toLowerCase() !== buscar.trim().toLowerCase()
-          ),
-        ];
-        return nuevoHistorial.slice(0, 5); // Limita a los últimos 5 elementos
-      });
-    } catch (error) {
-      alert(error.message);
-      setResultado(null);
+      if (response.ok) {
+        const data = await response.json();
+        setResultado(data[0]);
+        setHistorial((prev) => {
+          const nuevoHistorial = [
+            buscar.trim(),
+            ...prev.filter(
+              (item) => item.toLowerCase() !== buscar.trim().toLowerCase()
+            ),
+          ];
+          return nuevoHistorial.slice(0, 5);
+        });
+      } else {
+        setResultado(null);
+        alert("País no encontrado");
+        console.error("Error al obtener datos del país:", response.statusText);
+      }
     }
-    setBuscar("");
-  };
+    traerDatos();
+  }, [buscar]);
 
   //! MAQUETADO            ==========================================
   return (
     <section className=" border border-1 p-5">
-      <Form onSubmit={handleBuscar}>
+      <Form>
         <Form.Group className="mb-3" controlId="input buscar">
           <Form.Label>Buscar País</Form.Label>
           <Form.Control
@@ -91,9 +93,6 @@ const Formulario = () => {
             }
           />
         </Form.Group>
-        <Button variant="info" type="submit">
-          Buscar
-        </Button>
       </Form>
     </section>
   );
