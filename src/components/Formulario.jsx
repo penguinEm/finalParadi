@@ -6,9 +6,8 @@ const Formulario = () => {
   const [buscar, setBuscar] = useState("");
   const [resultado, setResultado] = useState(null);
   const [historial, setHistorial] = useState([]);
-
   //! FUNCIONES            ==========================================
-  // Manejar la búsqueda del país
+
   const handleBuscar = async (e) => {
     e.preventDefault();
     try {
@@ -18,7 +17,13 @@ const Formulario = () => {
       if (!response.ok) throw new Error("País no encontrado");
       const data = await response.json();
       setResultado(data[0]);
-      setHistorial((prev) => [...prev, buscar]);
+      setHistorial((prev) => {
+        const nuevoHistorial = [
+          buscar,
+          ...prev.filter((item) => item !== buscar),
+        ];
+        return nuevoHistorial.slice(0, 5);
+      });
     } catch (error) {
       alert(error.message);
       setResultado(null);
@@ -41,7 +46,6 @@ const Formulario = () => {
             value={buscar}
             required
           />
-          <img src=""></img>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="input resultado">
@@ -60,10 +64,7 @@ const Formulario = () => {
               </p>
               <p>
                 <strong>Bandera:</strong>{" "}
-                <img
-                  src={resultado.flags.svg}
-                  style={{ width: "100px" }}
-                />
+                <img src={resultado.flags.svg} style={{ width: "100px" }} />
               </p>
             </div>
           ) : (
