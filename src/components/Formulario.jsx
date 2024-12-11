@@ -51,19 +51,35 @@ const Formulario = () => {
 
         <Form.Group className="mb-3" controlId="input resultado">
           <Form.Label>Resultado</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="No hay resutlados para mostrar "
-            disabled
-            value={
-              resultado
-                ? `${resultado.name.common} - ${resultado.capital} - ${
-                    resultado.population
-                  } ${(<img src="{resultado.flag}"></img>)}`
-                : ""
-            }
-          />
+          {resultado ? (
+            <div className="border p-3">
+              <p>
+                <strong>Nombre:</strong> {resultado.name.common}
+              </p>
+              <p>
+                <strong>Capital:</strong> {resultado.capital}
+              </p>
+              <p>
+                <strong>Población:</strong>{" "}
+                {resultado.population.toLocaleString()}
+              </p>
+              <p>
+                <strong>Bandera:</strong>{" "}
+                <img
+                  src={resultado.flags.svg}
+                  style={{ width: "100px" }}
+                />
+              </p>
+            </div>
+          ) : (
+            <Form.Control
+              type="text"
+              placeholder="No hay resultados para mostrar"
+              disabled
+            />
+          )}
         </Form.Group>
+        
         <Form.Group className="mb-3" controlId="input historial">
           <Form.Label>Historial de Búsquedas</Form.Label>
           <Form.Control
