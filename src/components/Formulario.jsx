@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
+import Resultado from "./Resultado.jsx";
+import Historial from "./Historial.jsx";
 
 const Formulario = () => {
   //! VARIABLES DECLARADAS ==========================================
   const [buscar, setBuscar] = useState("");
   const [resultado, setResultado] = useState(null);
   const [historial, setHistorial] = useState([]);
-  //! FUNCIONES            ==========================================
 
+  //! FUNCIONES            ==========================================
   useEffect(() => {
     const traerDatos = async () => {
       if (!buscar) return;
@@ -29,7 +31,7 @@ const Formulario = () => {
       } else {
         setResultado(null);
         alert("País no encontrado");
-        console.error("Error al obtener datos del país:", response.statusText);
+        console.error("Error al obtener datos del país:");
       }
     }
     traerDatos();
@@ -51,48 +53,8 @@ const Formulario = () => {
             required
           />
         </Form.Group>
-
-        <Form.Group className="mb-3" controlId="input resultado">
-          <Form.Label>Resultado</Form.Label>
-          {resultado ? (
-            <div className="border p-3">
-              <p>
-                <strong>Nombre:</strong> {resultado.name.common}
-              </p>
-              <p>
-                <strong>Capital:</strong> {resultado.capital}
-              </p>
-              <p>
-                <strong>Población:</strong>{" "}
-                {resultado.population.toLocaleString()}
-              </p>
-              <p>
-                <strong>Bandera:</strong>{" "}
-                <img src={resultado.flags.svg} style={{ width: "100px" }} />
-              </p>
-            </div>
-          ) : (
-            <Form.Control
-              type="text"
-              placeholder="No hay resultados para mostrar"
-              disabled
-            />
-          )}
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="input historial">
-          <Form.Label>Historial de Búsquedas</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="No hay busquedas recientes"
-            disabled
-            value={
-              historial.length
-                ? historial.join(", ")
-                : "No hay búsquedas recientes"
-            }
-          />
-        </Form.Group>
+        <Resultado resultado={resultado}></Resultado>
+        <Historial historial={historial}></Historial>
       </Form>
     </section>
   );
