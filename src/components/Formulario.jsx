@@ -6,16 +6,11 @@ const Formulario = () => {
   const [buscar, setBuscar] = useState("");
   const [resultado, setResultado] = useState(null);
   const [historial, setHistorial] = useState([]);
+
   //! FUNCIONES            ==========================================
   // Manejar la búsqueda del país
   const handleBuscar = async (e) => {
     e.preventDefault();
-
-    /*  if (!buscar.trim()) {
-      alert("Por favor, escribe el nombre de un país.");
-      return;
-    } */
-
     try {
       const response = await fetch(
         `https://restcountries.com/v3.1/name/${buscar}`
@@ -79,7 +74,7 @@ const Formulario = () => {
             />
           )}
         </Form.Group>
-        
+
         <Form.Group className="mb-3" controlId="input historial">
           <Form.Label>Historial de Búsquedas</Form.Label>
           <Form.Control
