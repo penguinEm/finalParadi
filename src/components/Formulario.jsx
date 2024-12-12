@@ -20,12 +20,10 @@ const Formulario = () => {
         const data = await response.json();
         setResultado(data[0]);
         setHistorial((prev) => {
-          const nuevoHistorial = [
-            buscar.trim(),
-            ...prev.filter(
-              (item) => item.toLowerCase() !== buscar.trim().toLowerCase()
-            ),
-          ];
+            const nuevoHistorial = [
+                buscar.trim(),
+                ...prev.filter(item => item !== buscar.trim()),
+              ];
           return nuevoHistorial.slice(0, 5);
         });
       } else {
