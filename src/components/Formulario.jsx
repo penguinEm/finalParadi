@@ -17,8 +17,8 @@ const Formulario = () => {
         `https://restcountries.com/v3.1/name/${buscar}`
       );
       if (response.ok) {
-        const data = await response.json();
-        setResultado(data[0]);
+        const datos = await response.json();
+        setResultado(datos[0]);
         setHistorial((prev) => {
             const nuevoHistorial = [
                 buscar.trim(),
